@@ -1,19 +1,19 @@
 {
-  "name": "geometry-intersection",
-  "version": "0.0.1",
-  "description": "Defines the object's intersection",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha --recursive tests"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dmytro-lymarenko/geometry-intersection.git"
-  },
-  "author": "dmytro.lymarenko",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dmytro-lymarenko/geometry-intersection/issues"
-  },
-  "homepage": "https://github.com/dmytro-lymarenko/geometry-intersection#readme"
+	"name": "geometry-intersection2d",
+	"version": "0.0.1",
+	"description": "Defines the object's intersection",
+	"main": "index.js",
+	"scripts": {
+		"test": "mocha --recursive tests"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dmytro-lymarenko/geometry-intersection.git"
+	},
+	"author": "dmytro.lymarenko",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/dmytro-lymarenko/geometry-intersection/issues"
+	},
+	"homepage": "https://github.com/dmytro-lymarenko/geometry-intersection#readme"
 }
