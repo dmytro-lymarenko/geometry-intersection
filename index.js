@@ -6,7 +6,7 @@ const Vector2d = require('geometry-vector2d');
 p1, p2 belong to first line
 p3, p4 belong to second line
 */
-function pointOfLineIntersect(p1, p2, p3, p4) {
+function pointOfLinesIntersect(p1, p2, p3, p4) {
 	if(p1.y == p2.y) {
 		if(p3.y == p4.y) {
 			return undefined;
@@ -81,8 +81,129 @@ function getYInLine(p1, p2, x) {
 	return undefined;
 }
 
+/*
+point - point that belongs to line (begin, direction)
+begin, direction belong to ray (starts in begin directed to direction)
+return true if belongs otherwise false
+*/
+function pointBelongsToRay(point, begin, direction) {
+	if(begin.y == direction.y) {
+		if(begin.x == direction.x) {
+			return false;
+		}
+		if(begin.x < direction.x) {
+			if(point.x < begin.x) {
+				return false;
+			}
+		}
+		if(point.x > begin.x) {
+			return false;
+		}
+	}
+	if(begin.x == direction.x) {
+		if(begin.y < direction.y) {
+			if(point.y < begin.y) {
+				return false;
+			}
+		}
+		if(point.y > begin.y) {
+			return false;
+		}
+	}
+	let quarterOfPoint = Vector2d.getQuarterAccording(point, begin),
+		quarterOfDirection = Vector2d.getQuarterAccording(direction, begin);
+	if(quarterOfPoint != quarterOfDirection) {
+		return false;
+	}
+	return true;
+}
+
+/*
+point - point that belongs to line (begin, end)
+begin, end belong to segment (starts in begin and ends in end)
+return true if belongs otherwise false
+*/
+function pointBelongsToSegment(point, begin, end) {
+	return pointBelongsToRay(point, begin, end) && pointBelongsToRay(point, end, begin);
+}
+
+/*
+p1, p2 belong line
+begin, direction belong to ray (starts in begin directed to direction)
+*/
+function pointOfLineAndRayIntersect(p1, p2, begin, direction) {
+	let point = pointOfLinesIntersect(p1, p2, begin, direction);
+	if(point != undefined) {
+		if(pointBelongsToRay(point, begin, direction) == false) {
+			point = undefined;
+		}
+	}
+	return point;
+}
+
+/*
+begin1, direction1 belong to ray (starts in begin1 directed to direction1)
+begin2, direction2 belong to ray (starts in begin2 directed to direction2)
+*/
+function pointOfRaysIntersect(begin1, direction1, begin2, direction2) {
+	let point = pointOfLineAndRayIntersect(begin1, direction1, begin2, direction2);
+	if(point != undefined) {
+		if(pointBelongsToRay(point, begin1, direction1) == false) {
+			point = undefined;
+		}
+	}
+	return point;
+}
+
+/*
+p1, p2 belong to line
+begin, end belong to segment
+*/
+function pointOfLineAndSegmentIntersect(p1, p2, begin, end) {
+	let point = pointOfLinesIntersect(p1, p2, begin, end);
+	if(point != undefined) {
+		if(pointBelongsToSegment(point, begin, end) == false) {
+			point = undefined;
+		}
+	}
+	return point;
+}
+
+/*
+begin1, direction1 belong to ray (starts in begin1 directed to direction1)
+begin2, end2 belong segment
+*/
+function pointOfRayAndSegmentIntersect(begin1, direction1, begin2, end2) {
+	let point = pointOfLineAndSegmentIntersect(begin1, direction1, begin2, end2);
+	if(point != undefined) {
+		if(pointBelongsToRay(point, begin1, direction1) == false ) {
+			point = undefined;
+		}
+	}
+	return point;
+}
+
+/*
+begin1, end1 belong to first segment
+begin2, end2 belong to second segment
+*/
+function pointOfSegmentsIntersect(begin1, end1, begin2, end2) {
+	let point = pointOfLineAndSegmentIntersect(begin1, end1, begin2, end2);
+	if(point != undefined) {
+		if(pointBelongsToSegment(point, begin1, end1) == false ) {
+			point = undefined;
+		}
+	}
+	return point;
+}
+
 module.exports = {
-	pointOfLineIntersect: pointOfLineIntersect,
+	pointOfLinesIntersect: pointOfLinesIntersect,
+	pointOfLineAndRayIntersect: pointOfLineAndRayIntersect,
+	pointOfRaysIntersect: pointOfRaysIntersect,
+	pointOfLineAndSegmentIntersect: pointOfLineAndSegmentIntersect,
+	pointOfRayAndSegmentIntersect: pointOfRayAndSegmentIntersect,
+	pointOfSegmentsIntersect: pointOfSegmentsIntersect,
 	getXInLine: getXInLine,
 	getYInLine: getYInLine
 };
