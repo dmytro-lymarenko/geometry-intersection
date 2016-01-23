@@ -6,14 +6,16 @@ const intersection2d = require('../index');
 const Vector2d = require('geometry-vector2d');
 
 describe('geometry-intersection2d', () => {
-	describe('.pointOfLineIntersect', () => {
+	describe('.pointOfLinesIntersect', () => {
 		it('should be an exported function', () => {
-			should(intersection2d.pointOfLineIntersect).be.a.Function();
+			should(intersection2d.pointOfLinesIntersect).be.a.Function();
 		});
 
 		it('should correctly calculate the point of intersection', () => {
-			const poli = intersection2d.pointOfLineIntersect;
+			const poli = intersection2d.pointOfLinesIntersect;
 			const v = Vector2d.getVectorXY;
+
+			//should(poli(v(1, 1), v(1, 1), v(4, 6), v(-4, 3))).be.Undefined();
 
 			should(poli(v(1, 0), v(1, 6), v(-1, 2), v(5, 2))).be.eql(v(1, 2));
 			should(poli(v(-10, 4), v(-10, 9), v(5, 8), v(5, -4))).be.Undefined();
